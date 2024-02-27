@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
@@ -21,34 +22,40 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Task登録
+     * 
+     * @param StoreTaskRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request): JsonResponse
     {
-        //
+        $task = Task::create($request->all());
+
+        return $task ? response()->json($task, 201) : response()->json([], 500);
     }
 
     /**
-     * Display the specified resource.
+     * Task更新
+     *
+     * @param UpdateTaskRequest $request
+     * @param Task $task
+     * @return JsonResponse
      */
-    public function show(Task $task)
+    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
-        //
+        $task->title = $request->title;
+
+        return $task->update() ? response()->json($task) : response()->json([], 500);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Task削除
+     *
+     * @param Task $task
+     * @return JsonResponse
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function destroy(Task $task): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task)
-    {
-        //
+        return $task->delete() ? response()->json($task) : response()->json([], 500);
     }
 }
