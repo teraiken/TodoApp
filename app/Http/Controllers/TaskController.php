@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskDoneRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -44,6 +45,20 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
         $task->title = $request->title;
+
+        return $task->update() ? response()->json($task) : response()->json([], 500);
+    }
+
+    /**
+     * Task更新
+     *
+     * @param UpdateTaskDoneRequest $request
+     * @param Task $task
+     * @return JsonResponse
+     */
+    public function updateDone(UpdateTaskDoneRequest $request, Task $task): JsonResponse
+    {
+        $task->is_done = $request->is_done;
 
         return $task->update() ? response()->json($task) : response()->json([], 500);
     }
