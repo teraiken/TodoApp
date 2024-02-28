@@ -7,9 +7,15 @@ const getTasks = async () => {
 };
 
 const updateDoneTask = async ({ id, is_done }: Task) => {
-    const { data } = await axios.patch<Task[]>(`/api/tasks/update-done/${id}`, {
+    const { data } = await axios.patch<Task>(`/api/tasks/update-done/${id}`, {
         is_done: !is_done,
     });
     return data;
 };
-export { getTasks, updateDoneTask };
+
+const createTask = async (title: string) => {
+    const { data } = await axios.post<Task>("api/tasks", { title });
+    return data;
+};
+
+export { getTasks, updateDoneTask, createTask };
