@@ -17,6 +17,7 @@ class Task extends Model
     protected $fillable = [
         'title',
         'is_done',
+        'user_id'
     ];
 
     /**
@@ -26,5 +27,6 @@ class Task extends Model
      */
     protected $casts = [
         'is_done' => 'bool',
+        'user_id' => 'int',
     ];
 }
